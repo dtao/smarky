@@ -64,6 +64,10 @@ module Smarky
       require 'smarky/markdown/maruku'
       Smarky::Markdown::Maruku.new
 
+    when :kramdown
+      require 'smarky/markdown/kramdown'
+      Smarky::Markdown::Kramdown.new
+
     else
       # Default to Redcarpet
       require 'smarky/markdown/redcarpet'

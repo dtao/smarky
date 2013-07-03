@@ -43,6 +43,15 @@ describe Smarky do
       verify_result({ :markdown_renderer => :maruku }, '<article><p class="normal">This should look normal.</p></article>')
     end
 
+    it 'can also use Kramdown' do
+      # TODO: Test this properly.
+      input <<-EOMARKDOWN
+        This should also look normal.
+        {: .normal }
+      EOMARKDOWN
+      verify_result({ :markdown_renderer => :kramdown }, '<article><p class="normal">This should also look normal.</p></article>')
+    end
+
     it 'renders sibling sections for progressive heading elements' do
       input <<-EOMARKDOWN
         Section 1

@@ -1,50 +1,22 @@
-require 'smarky'
-require 'rspec'
-require 'heredoc_unindent'
+require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe Smarky do
-  def input(markdown)
-    @input = markdown.unindent
-  end
+  include SmarkySpecs
 
-  def node_to_array(node)
-    array = [node.name.to_sym]
-
-    if node.children.empty?
-      array << node.content
-
-    elsif node.children.length == 1 && node.children[0].name == 'text'
-      array << node.children[0].content
-
-    else
-      node.children.each do |node|
-        array << node_to_array(node) unless node.name == 'text' && node.content =~ /^\s*$/
+  describe 'parse' do
+    def verify_result(expected)
+      case expected
+      when Array
+        node_to_array(result)[1..-1].should == expected
+      when String
+        result.to_html.should == expected
+      else
+        raise 'Unable to verify against a #{expected.class}.'
       end
     end
 
-    array
-  end
-
-  def verify_result(expected)
-    case expected
-    when Array
-      node_to_array(result)[1..-1].should == expected
-    when String
-      result.inner_html.should == expected
-    else
-      raise 'Unable to verify against a #{expected.class}.'
-    end
-  end
-
-  let(:result) { Smarky.parse(@input) }
-
-  before :each do
-    @input = ''
-  end
-
-  describe 'parse' do
-    it 'returns an <article> HTML element' do
-      result.should be_a(Nokogiri::XML::Node)
+    it 'returns a Smarky::Element wrapper around an <article>' do
+      result.should be_a(Smarky::Element)
       result.name.should == 'article'
     end
 

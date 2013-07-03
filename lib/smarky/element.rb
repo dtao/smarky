@@ -1,6 +1,8 @@
 module Smarky
   class Element
-    def initialize(node_or_name)
+    def initialize(*args)
+      node_or_name, @title = args
+
       case node_or_name
       when String
         @document = Nokogiri::HTML::Document.new
@@ -9,6 +11,13 @@ module Smarky
       else
         @document = node_or_name.document
         @node     = node_or_name
+      end
+    end
+
+    def title
+      @title ||= begin
+        first_heading = @node.children.first { |node| node.name =~ /^h(\d)$/ }
+        first_heading && first_heading.content
       end
     end
 
@@ -29,7 +38,7 @@ module Smarky
     end
 
     def sections
-      @sections ||= @node.css('section').map { |node| Element.new(node) }
+      @sections ||= @node.css('> section').map { |node| Element.new(node) }
     end
 
     def add_child(child)
@@ -61,6 +70,7 @@ module Smarky
     private
 
     def dirty!
+      @title    = nil
       @parent   = nil
       @children = nil
       @sections = nil

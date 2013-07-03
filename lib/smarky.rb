@@ -14,8 +14,8 @@ module Smarky
     current_level = nil
 
     fragment.children.each do |node|
-      if (heading = node.name.match(/h(\d+)/i))
-        new_section = Element.new('section')
+      if (heading = node.name.match(/^h(\d)$/i))
+        new_section = Element.new('section', heading[0])
         new_section.add_child(Element.new(node))
 
         level = heading[1].to_i

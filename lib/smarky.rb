@@ -1,6 +1,7 @@
-require "smarky/version"
-require "nokogiri"
-require "redcarpet"
+require 'smarky/element'
+require 'smarky/version'
+require 'nokogiri'
+require 'redcarpet'
 
 module Smarky
   def self.parse(markdown)
@@ -8,21 +9,20 @@ module Smarky
     html     = renderer.render(markdown)
     fragment = Nokogiri::HTML.fragment(html)
 
-    document = Nokogiri::HTML::Document.new
-    article  = Nokogiri::XML::Node.new('article', document)
+    article  = Element.new('article')
     section  = article
     current_level = nil
 
     fragment.children.each do |node|
       if (heading = node.name.match(/h(\d+)/i))
-        new_section = Nokogiri::XML::Node.new('section', document)
-        new_section.add_child(node)
+        new_section = Element.new('section')
+        new_section.add_child(Element.new(node))
 
         level = heading[1].to_i
         if current_level.nil? || level > current_level
           difference = level - (current_level || 0)
           while difference > 1
-            wrapper_section = Nokogiri::XML::Node.new('section', document)
+            wrapper_section = Element.new('section')
             section.add_child(wrapper_section)
             section = wrapper_section
             difference -= 1
@@ -49,7 +49,7 @@ module Smarky
         current_level = level
 
       else
-        section.add_child(node)
+        section.add_child(Element.new(node))
       end
     end
 

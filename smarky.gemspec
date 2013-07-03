@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["daniel.tao@gmail.com"]
   spec.description   = %q{Smarky creates structure from Markdown}
   spec.summary       = %q{Smarky creates structure from Markdown}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/dtao/smarky"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

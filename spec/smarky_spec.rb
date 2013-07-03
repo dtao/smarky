@@ -22,7 +22,7 @@ describe Smarky do
 
     it 'works in the simplest case: rendering a single paragraph' do
       input 'Why *hello* there.'
-      verify_result '<p>Why <em>hello</em> there.</p>'
+      verify_result '<article><p>Why <em>hello</em> there.</p></article>'
     end
 
     it 'renders sibling sections for progressive heading elements' do

@@ -20,7 +20,7 @@ module Smarky
 
         level = heading[1].to_i
         if current_level.nil? || level > current_level
-          difference = level - (current_level || 0)
+          difference = level - (current_level || 1)
           while difference > 1
             wrapper_section = Element.new('section')
             section.add_child(wrapper_section)

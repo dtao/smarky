@@ -3,6 +3,8 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 describe Smarky::Element do
   let(:result) { Smarky.parse(@input) }
 
+  let(:sections) { result.sections }
+
   before :each do
     input <<-EOMARKDOWN
       # Chapter 1
@@ -21,13 +23,26 @@ describe Smarky::Element do
   end
 
   it 'provides access to all of its child sections' do
-    result.sections.map(&:title).should == ['Chapter 1', 'Chapter 2']
+    sections.map(&:title).should == ['Chapter 1', 'Chapter 2']
   end
 
   it 'every section also provides access to child sections' do
-    result.sections.map { |s| s.sections.map(&:title) }.should == [
+    sections.map { |s| s.sections.map(&:title) }.should == [
       ['Chapter 1, Part 1', 'Chapter 1, Part 2'],
       ['Chapter 2, Part 1', 'Chapter 2, Part 2']
     ]
+  end
+
+  it "doesn't have a title if its first child is not a heading" do
+    input <<-EOMARKDOWN
+      This is some content before the heading.
+      
+      This is a heading
+      =================
+      
+      This is some content after the heading.
+    EOMARKDOWN
+
+    result.title.should be_nil
   end
 end

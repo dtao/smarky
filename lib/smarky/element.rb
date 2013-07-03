@@ -16,8 +16,8 @@ module Smarky
 
     def title
       @title ||= begin
-        first_heading = @node.children.first { |node| node.name =~ /^h(\d)$/ }
-        first_heading && first_heading.content
+        first_child = @node.children.first
+        first_child && first_child.name =~ /^h[1-6]$/ && first_child.content
       end
     end
 
@@ -58,6 +58,10 @@ module Smarky
     end
 
     def to_html
+      @node.to_html
+    end
+
+    def inner_html
       @node.inner_html
     end
 

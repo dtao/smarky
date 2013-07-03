@@ -1,5 +1,4 @@
 require "smarky/version"
-require "smarky/section"
 require "nokogiri"
 require "redcarpet"
 

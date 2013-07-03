@@ -48,7 +48,13 @@ Usage
 
 ```ruby
 article = Smarky.parse('This is some *sweet* Markdown.')
-# => an <article> Nokogiri::XML::Node
+# => a Smarky::Element representing the top-level <article>
+
+article.children
+# => an array of Smarky::Element objects (w/ #to_html and #inner_html methods)
+
+article.sections
+# => an array of just the child sections (useful for, e.g., a table of contents)
 
 article.to_html
 # => the structured HTML

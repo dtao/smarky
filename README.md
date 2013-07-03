@@ -10,11 +10,11 @@ This is easier to show than to explain. Say we have this Markdown:
 
 ## Chapter 1
 
-Someone must have been telling lies about Josef K., he knew he had done nothing wrong but, one morning, he was arrested.
+Someone must have been telling lies about Josef K. [...]
 
 ## Chapter 2
 
-K. was informed by telephone that there would be a small hearing concerning his case the following Sunday.
+K. was informed by telephone [...]
 ```
 
 Traditional Markdown renderers will translate this to the following HTML:
@@ -22,7 +22,7 @@ Traditional Markdown renderers will translate this to the following HTML:
 ```html
 <h1>The Trial</h1>
 <h2>Chapter 1</h2>
-<p>Someone must have been telling lies [...]</p>
+<p>Someone must have been telling lies about Joseph K. [...]</p>
 <h2>Chapter 2</h2>
 <p>K. was informed by telephone [...]</p>
 ```
@@ -34,7 +34,7 @@ This is *flat*. Smarky will produce this instead:
   <h1>The Trial</h1>
   <section>
     <h2>Chapter 1</h2>
-    <p>Someone must have been telling lies [...]</p>
+    <p>Someone must have been telling lies about Joseph K. [...]</p>
   </section>
   <section>
     <h2>Chapter 2</h2>

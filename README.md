@@ -59,3 +59,18 @@ article.sections
 article.to_html
 # => the structured HTML
 ```
+
+Choosing a Markdown renderer
+----------------------------
+
+Smarky lets you pick which Markdown renderer you want to use. Right now you have three options:
+
+- [Redcarpet](https://github.com/vmg/redcarpet)
+- [Maruku](https://github.com/bhollis/maruku)
+- [Kramdown](https://github.com/gettalong/kramdown)
+
+To specify a renderer, pass an options hash with `:markdown_renderer` to `Smarky.parse`:
+
+    Smarky.parse(markdown, :markdown_renderer => :kramdown)
+
+Obviously, you'll need the appropriate gem installed in order to use it (Smarky doesn't eagerly specify a dependency on any of them). The default is currently Redcarpet.

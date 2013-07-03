@@ -1,7 +1,7 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe Smarky::Element do
-  include SmarkySpecs
+  let(:result) { Smarky.parse(@input) }
 
   before :each do
     input <<-EOMARKDOWN

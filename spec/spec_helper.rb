@@ -24,14 +24,8 @@ def node_to_array(node)
   array
 end
 
-module SmarkySpecs
-  def self.included(specs)
-    specs.instance_eval do
-      let(:result) { Smarky.parse(@input) }
-
-      before :each do
-        @input = ''
-      end
-    end
+RSpec.configure do |config|
+  config.before :each do
+    @input = ''
   end
 end

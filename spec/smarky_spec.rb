@@ -1,7 +1,7 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe Smarky do
-  include SmarkySpecs
+  let(:result) { Smarky.parse(@input) }
 
   describe 'parse' do
     def verify_result(expected)

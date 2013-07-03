@@ -1,12 +1,10 @@
 require 'smarky/element'
 require 'smarky/version'
 require 'nokogiri'
-require 'redcarpet'
 
 module Smarky
-  def self.parse(markdown)
-    renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
-    html     = renderer.render(markdown)
+  def self.parse(markdown, options={})
+    html     = self.markdown_renderer(options).render(markdown)
     fragment = Nokogiri::HTML.fragment(html)
 
     article  = Element.new('article')
@@ -54,5 +52,22 @@ module Smarky
     end
 
     article
+  end
+
+  def self.markdown_renderer(options={})
+    case options[:markdown_renderer]
+    when :redcarpet
+      require 'smarky/markdown/redcarpet'
+      Smarky::Markdown::Redcarpet.new
+
+    when :maruku
+      require 'smarky/markdown/maruku'
+      Smarky::Markdown::Maruku.new
+
+    else
+      # Default to Redcarpet
+      require 'smarky/markdown/redcarpet'
+      Smarky::Markdown::Redcarpet.new
+    end
   end
 end

@@ -1,10 +1,12 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe Smarky do
-  let(:result) { Smarky.parse(@input) }
+  let(:result) { Smarky.parse(@input, @options || {}) }
 
   describe 'parse' do
-    def verify_result(expected)
+    def verify_result(*args)
+      expected, @options = [args.pop, args.pop]
+
       case expected
       when Array
         node_to_array(result)[1..-1].should == expected
@@ -23,6 +25,22 @@ describe Smarky do
     it 'works in the simplest case: rendering a single paragraph' do
       input 'Why *hello* there.'
       verify_result '<article><p>Why <em>hello</em> there.</p></article>'
+    end
+
+    it 'uses RedCarpet for rendering Markdown by default' do
+      input <<-EOMARKDOWN
+        This should look weird.
+        {: .weird }
+      EOMARKDOWN
+      verify_result "<article><p>This should look weird.\n{: .weird }</p></article>"
+    end
+
+    it 'can use Maruku, if specified' do
+      input <<-EOMARKDOWN
+        This should look normal.
+        {: .normal }
+      EOMARKDOWN
+      verify_result({ :markdown_renderer => :maruku }, '<article><p class="normal">This should look normal.</p></article>')
     end
 
     it 'renders sibling sections for progressive heading elements' do

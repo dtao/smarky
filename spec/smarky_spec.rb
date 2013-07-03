@@ -153,5 +153,38 @@ describe Smarky do
         ]
       ]
     end
+
+    it 'handles diving down and then jumping back up by multiple levels' do
+      input <<-EOMARKDOWN
+        # Section 1
+        
+        This is section 1.
+        
+        ### Section 1.1.1
+        
+        This is section 1.1.1.
+        
+        # Section 2
+        
+        This is section 2.
+      EOMARKDOWN
+
+      verify_result [
+        [:section,
+          [:h1, 'Section 1'],
+          [:p, 'This is section 1.'],
+          [:section,
+            [:section,
+              [:h3, 'Section 1.1.1'],
+              [:p, 'This is section 1.1.1.']
+            ]
+          ]
+        ],
+        [:section,
+          [:h1, 'Section 2'],
+          [:p, 'This is section 2.']
+        ]
+      ]
+    end
   end
 end

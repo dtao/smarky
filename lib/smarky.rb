@@ -20,6 +20,14 @@ module Smarky
 
         level = heading[1].to_i
         if current_level.nil? || level > current_level
+          difference = level - (current_level || 0)
+          while difference > 1
+            wrapper_section = Nokogiri::XML::Node.new('section', document)
+            section.add_child(wrapper_section)
+            section = wrapper_section
+            difference -= 1
+          end
+
           section.add_child(new_section)
           section = new_section
 
@@ -28,7 +36,13 @@ module Smarky
           section = new_section
 
         else
-          section.parent.add_next_sibling(new_section)
+          difference = current_level - level
+          while difference > 0
+            section = section.parent
+            difference -= 1
+          end
+
+          section.add_next_sibling(new_section)
           section = new_section
         end
 

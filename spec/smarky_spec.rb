@@ -66,11 +66,11 @@ describe Smarky do
       EOMARKDOWN
 
       verify_result [
-        [:section,
+        [:section, { :id => 'section-1' },
           [:h1, 'Section 1'],
           [:p, 'This is section 1.']
         ],
-        [:section,
+        [:section, { :id => 'section-2' },
           [:h1, 'Section 2'],
           [:p, 'This is section 2.']
         ]
@@ -95,13 +95,13 @@ describe Smarky do
       EOMARKDOWN
 
       verify_result [
-        [:section,
+        [:section, { :id => 'section-1' },
           [:h1, 'Section 1'],
           [:p, 'This is section 1.'],
-          [:section,
+          [:section, { :id => 'section-1-1' },
             [:h2, 'Section 1.1'],
             [:p, 'This is section 1.1.'],
-            [:section,
+            [:section, { :id => 'section-1-1-1' },
               [:h3, 'Section 1.1.1'],
               [:p, 'This is section 1.1.1.']
             ]
@@ -134,18 +134,18 @@ describe Smarky do
       EOMARKDOWN
 
       verify_result [
-        [:section,
+        [:section, { :id => 'section-1' },
           [:h1, 'Section 1'],
           [:p, 'This is section 1.'],
-          [:section,
+          [:section, { :id => 'section-1-1' },
             [:h2, 'Section 1.1'],
             [:p, 'This is section 1.1.']
           ]
         ],
-        [:section,
+        [:section, { :id => 'section-2' },
           [:h1, 'Section 2'],
           [:p, 'This is section 2.'],
-          [:section,
+          [:section, { :id => 'section-2-1' },
             [:h2, 'Section 2.1'],
             [:p, 'This is section 2.1.']
           ]
@@ -169,17 +169,17 @@ describe Smarky do
       EOMARKDOWN
 
       verify_result [
-        [:section,
+        [:section, { :id => 'section-1' },
           [:h1, 'Section 1'],
           [:p, 'This is section 1.'],
           [:section,
-            [:section,
+            [:section, { :id => 'section-1-1-1' },
               [:h3, 'Section 1.1.1'],
               [:p, 'This is section 1.1.1.']
             ]
           ]
         ],
-        [:section,
+        [:section, { :id => 'section-2' },
           [:h1, 'Section 2'],
           [:p, 'This is section 2.']
         ]

@@ -9,6 +9,10 @@ end
 def node_to_array(node)
   array = [node.name.to_sym]
 
+  if node.attributes.any?
+    array << attribute_hash(node.attributes)
+  end
+
   if node.children.empty?
     array << node.content
 
@@ -22,6 +26,13 @@ def node_to_array(node)
   end
 
   array
+end
+
+def attribute_hash(attributes)
+  attributes.inject({}) do |hash, (name, attribute)|
+    hash[name.to_sym] = attribute.content
+    hash
+  end
 end
 
 RSpec.configure do |config|

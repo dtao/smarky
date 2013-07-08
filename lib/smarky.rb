@@ -13,8 +13,11 @@ module Smarky
 
     fragment.children.each do |node|
       if (heading = node.name.match(/^h(\d)$/i))
-        new_section = Element.new('section', heading[0])
+        title = node.content
+
+        new_section = Element.new('section', title)
         new_section.add_child(Element.new(node))
+        new_section['id'] = title.downcase.gsub(/[^0-9A-Z]/i, '-')
 
         level = heading[1].to_i
         if current_level.nil? || level > current_level

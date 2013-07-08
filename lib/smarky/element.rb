@@ -29,6 +29,14 @@ module Smarky
       @node.name
     end
 
+    def attributes
+      @node.attributes
+    end
+
+    def []=(attribute, value)
+      @node[attribute] = value
+    end
+
     def content
       @node.content
     end

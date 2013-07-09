@@ -58,6 +58,9 @@ article.sections
 
 article.to_html
 # => the structured HTML
+
+article.inner_html
+# => if you want to inject the HTML into an existing container
 ```
 
 Choosing a Markdown renderer

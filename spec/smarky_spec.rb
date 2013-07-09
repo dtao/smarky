@@ -66,15 +66,24 @@ describe Smarky do
       EOMARKDOWN
 
       verify_result [
-        [:section, { :id => 'section-1' },
+        [:section,
           [:h1, 'Section 1'],
           [:p, 'This is section 1.']
         ],
-        [:section, { :id => 'section-2' },
+        [:section,
           [:h1, 'Section 2'],
           [:p, 'This is section 2.']
         ]
       ]
+    end
+
+    it 'attaches IDs to HTML sections' do
+      input <<-EOMARKDOWN
+        Section 1
+        =========
+      EOMARKDOWN
+
+      verify_result '<article><section id="section-1"><h1>Section 1</h1></section></article>'
     end
 
     it 'renders nested sections for heading elements with descending rank' do
@@ -95,13 +104,13 @@ describe Smarky do
       EOMARKDOWN
 
       verify_result [
-        [:section, { :id => 'section-1' },
+        [:section,
           [:h1, 'Section 1'],
           [:p, 'This is section 1.'],
-          [:section, { :id => 'section-1-1' },
+          [:section,
             [:h2, 'Section 1.1'],
             [:p, 'This is section 1.1.'],
-            [:section, { :id => 'section-1-1-1' },
+            [:section,
               [:h3, 'Section 1.1.1'],
               [:p, 'This is section 1.1.1.']
             ]
@@ -134,18 +143,18 @@ describe Smarky do
       EOMARKDOWN
 
       verify_result [
-        [:section, { :id => 'section-1' },
+        [:section,
           [:h1, 'Section 1'],
           [:p, 'This is section 1.'],
-          [:section, { :id => 'section-1-1' },
+          [:section,
             [:h2, 'Section 1.1'],
             [:p, 'This is section 1.1.']
           ]
         ],
-        [:section, { :id => 'section-2' },
+        [:section,
           [:h1, 'Section 2'],
           [:p, 'This is section 2.'],
-          [:section, { :id => 'section-2-1' },
+          [:section,
             [:h2, 'Section 2.1'],
             [:p, 'This is section 2.1.']
           ]
@@ -169,17 +178,17 @@ describe Smarky do
       EOMARKDOWN
 
       verify_result [
-        [:section, { :id => 'section-1' },
+        [:section,
           [:h1, 'Section 1'],
           [:p, 'This is section 1.'],
           [:section,
-            [:section, { :id => 'section-1-1-1' },
+            [:section,
               [:h3, 'Section 1.1.1'],
               [:p, 'This is section 1.1.1.']
             ]
           ]
         ],
-        [:section, { :id => 'section-2' },
+        [:section,
           [:h1, 'Section 2'],
           [:p, 'This is section 2.']
         ]

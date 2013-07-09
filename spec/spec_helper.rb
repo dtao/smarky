@@ -9,9 +9,9 @@ end
 def node_to_array(node)
   array = [node.name.to_sym]
 
-  if node.attributes.any?
-    array << attribute_hash(node.attributes)
-  end
+  # if node.attributes.any?
+  #   array << attribute_hash(node.attributes)
+  # end
 
   if node.children.empty?
     array << node.content

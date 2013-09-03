@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require 'smarky'
+
+input_file = ARGV[0] || 'index.md'
+if !File.exist?(input_file)
+  puts "Usage: smarky [input file path] [output file path]"
+  exit
+end
+
+output_file = ARGV[1] || File.basename(input_file, '.*') + '.html'
+
+document = Smarky.parse(File.read(input_file))
+
+File.open(output_file, 'w') do |f|
+  f.write(document.to_html)
+end

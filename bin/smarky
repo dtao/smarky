@@ -14,5 +14,8 @@ output_file = ARGV[1] || File.basename(input_file, '.*') + '.html'
 document = Smarky.parse(File.read(input_file))
 
 File.open(output_file, 'w') do |f|
-  f.write(document.to_html)
+  # Hacky way of getting nicely indented HTML:
+  # http://stackoverflow.com/questions/1898829/how-do-i-pretty-print-html-with-nokogiri
+  # This might be a huge mistake.
+  f.write(Nokogiri::XML(document.to_html, &:noblanks).to_xhtml(:indent => 4))
 end

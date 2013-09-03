@@ -30,13 +30,13 @@ Traditional Markdown renderers will translate this to the following HTML:
 This is *flat*. Smarky will produce this instead:
 
 ```html
-<article>
+<article id="the-trial">
   <h1>The Trial</h1>
-  <section>
+  <section id="chapter-1">
     <h2>Chapter 1</h2>
     <p>Someone must have been telling lies about Joseph K. [...]</p>
   </section>
-  <section>
+  <section id="chapter-2">
     <h2>Chapter 2</h2>
     <p>K. was informed by telephone [...]</p>
   </section>

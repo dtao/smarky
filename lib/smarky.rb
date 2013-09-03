@@ -54,6 +54,13 @@ module Smarky
       end
     end
 
+    # Special case: when an <article> contains exactly one <section> and nothing more.
+    if article.children.length == 1 && article.sections.length == 1
+      only_section = article.sections.first
+      only_section.name = 'article'
+      return only_section
+    end
+
     article
   end
 

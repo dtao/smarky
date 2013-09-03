@@ -81,9 +81,30 @@ describe Smarky do
       input <<-EOMARKDOWN
         Section 1
         =========
+        
+        Section 2
+        =========
       EOMARKDOWN
 
-      verify_result '<article><section id="section-1"><h1>Section 1</h1></section></article>'
+      # TODO: This is fragile :( Make it not!
+      verify_result '<article>' +
+        '<section id="section-1"><h1>Section 1</h1>' + "\n\n" + '</section>' +
+        '<section id="section-2"><h1>Section 2</h1></section>' +
+        '</article>'
+    end
+
+    it 'adds content directly to the root article if there is only one top-level section' do
+      input <<-EOMARKDOWN
+        Article
+        =======
+        
+        This is some content.
+      EOMARKDOWN
+
+      verify_result [
+        [:h1, 'Article'],
+        [:p, 'This is some content.']
+      ]
     end
 
     it 'renders nested sections for heading elements with descending rank' do
@@ -104,16 +125,14 @@ describe Smarky do
       EOMARKDOWN
 
       verify_result [
+        [:h1, 'Section 1'],
+        [:p, 'This is section 1.'],
         [:section,
-          [:h1, 'Section 1'],
-          [:p, 'This is section 1.'],
+          [:h2, 'Section 1.1'],
+          [:p, 'This is section 1.1.'],
           [:section,
-            [:h2, 'Section 1.1'],
-            [:p, 'This is section 1.1.'],
-            [:section,
-              [:h3, 'Section 1.1.1'],
-              [:p, 'This is section 1.1.1.']
-            ]
+            [:h3, 'Section 1.1.1'],
+            [:p, 'This is section 1.1.1.']
           ]
         ]
       ]

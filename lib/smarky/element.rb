@@ -29,6 +29,10 @@ module Smarky
       @node.name
     end
 
+    def name=(value)
+      @node.name = value
+    end
+
     def attributes
       @node.attributes
     end

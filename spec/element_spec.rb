@@ -49,7 +49,7 @@ describe Smarky::Element do
         Content content content.
       EOMARKDOWN
 
-      sections.first.title.should == 'This is a title'
+      result.title.should == 'This is a title'
     end
 
     it "doesn't have a title if its first child is not a heading" do

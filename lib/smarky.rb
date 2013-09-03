@@ -72,9 +72,22 @@ module Smarky
       Smarky::Markdown::Kramdown.new
 
     else
-      # Default to Redcarpet
-      require 'smarky/markdown/redcarpet'
-      Smarky::Markdown::Redcarpet.new
+      # Just use whatever's available.
+      if defined?(::Redcarpet)
+        require 'smarky/markdown/redcarpet'
+        Smarky::Markdown::Redcarpet.new
+
+      elsif defined?(::Kramdown)
+      require 'smarky/markdown/kramdown'
+        Smarky::Markdown::Kramdown.new
+
+      elsif defined?(::Maruku)
+      require 'smarky/markdown/maruku'
+        Smarky::Markdown::Maruku.new
+
+      else
+        raise "Smarky currently requires Redcarpet, Kramdown, or Maruku!"
+      end
     end
   end
 end

@@ -1,3 +1,4 @@
+require 'redcarpet'
 require 'smarky'
 require 'rspec'
 require 'heredoc_unindent'

@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'redcarpet'
 require 'smarky'
 
 input_file = ARGV[0] || 'index.md'

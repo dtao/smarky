@@ -65,4 +65,20 @@ describe Smarky::Element do
       result.title.should be_nil
     end
   end
+
+  describe 'to_html' do
+    it 'can omit section titles if desired' do
+      input <<-EOMARKDOWN
+        This is a title
+        ===============
+        
+        Content content content.
+      EOMARKDOWN
+
+      # TODO: Make this less fragile (broken record...)
+      result.to_html(:omit_titles => true).should == '<article id="this-is-a-title">' + "\n\n" +
+        '<p>Content content content.</p>' +
+        '</article>'
+    end
+  end
 end

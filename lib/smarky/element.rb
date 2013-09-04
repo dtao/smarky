@@ -69,8 +69,17 @@ module Smarky
       add_child(Element.new('section'))
     end
 
-    def to_html
-      @node.to_html
+    def to_html(options={})
+      node = @node
+
+      if options[:omit_titles]
+        node = node.clone
+        node.css('h1,h2,h3,h4,h5,h6').each do |child|
+          child.remove()
+        end
+      end
+
+      node.to_html
     end
 
     def inner_html

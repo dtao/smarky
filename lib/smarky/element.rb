@@ -79,7 +79,10 @@ module Smarky
         end
       end
 
-      node.to_html
+      # Getting nicely indented HTML:
+      # http://stackoverflow.com/questions/1898829/how-do-i-pretty-print-html-with-nokogiri
+      # This might be a huge mistake?
+      node.to_xhtml(:indent => 2, :indent_text => ' ')
     end
 
     def inner_html

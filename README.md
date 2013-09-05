@@ -59,6 +59,9 @@ article.sections
 article.to_html
 # => the structured HTML
 
+article.to_html(:omit_titles => true)
+# => if you want to exclude the <h1>, <h2>, etc. tags from the HTML output
+
 article.inner_html
 # => if you want to inject the HTML into an existing container
 ```

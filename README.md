@@ -71,6 +71,7 @@ Choosing a Markdown renderer
 
 Smarky lets you pick which Markdown renderer you want to use. Right now you have three options:
 
+- [Github-Flavored Markdown](https://help.github.com/articles/github-flavored-markdown)
 - [Redcarpet](https://github.com/vmg/redcarpet)
 - [Maruku](https://github.com/bhollis/maruku)
 - [Kramdown](https://github.com/gettalong/kramdown)

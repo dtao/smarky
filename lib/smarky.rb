@@ -66,17 +66,21 @@ module Smarky
 
   def self.markdown_renderer(options={})
     case options[:markdown_renderer]
-    when :redcarpet
-      require 'smarky/markdown/redcarpet'
-      Smarky::Markdown::Redcarpet.new
+    when :gfm
+      require 'smarky/markdown/gfm'
+      Smarky::Markdown::GFM.new
+
+    when :kramdown
+      require 'smarky/markdown/kramdown'
+      Smarky::Markdown::Kramdown.new
 
     when :maruku
       require 'smarky/markdown/maruku'
       Smarky::Markdown::Maruku.new
 
-    when :kramdown
-      require 'smarky/markdown/kramdown'
-      Smarky::Markdown::Kramdown.new
+    when :redcarpet
+      require 'smarky/markdown/redcarpet'
+      Smarky::Markdown::Redcarpet.new
 
     else
       # Just use whatever's available.
@@ -85,15 +89,20 @@ module Smarky
         Smarky::Markdown::Redcarpet.new
 
       elsif defined?(::Kramdown)
-      require 'smarky/markdown/kramdown'
+        require 'smarky/markdown/kramdown'
         Smarky::Markdown::Kramdown.new
 
       elsif defined?(::Maruku)
-      require 'smarky/markdown/maruku'
+        require 'smarky/markdown/maruku'
         Smarky::Markdown::Maruku.new
 
+      elsif defined?(::GitHub::Markdown)
+        require 'smarky/markdown/gfm'
+        Smarky::Markdown::GFM.new
+
       else
-        raise "Smarky currently requires Redcarpet, Kramdown, or Maruku!"
+        raise 'Smarky currently requires one of the following gems: ' +
+          'github-markdown, redcarpet, kramdown, maruku'
       end
     end
   end

@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Smarky::VERSION
   spec.authors       = ["Dan Tao"]
   spec.email         = ["daniel.tao@gmail.com"]
-  spec.description   = %q{Smarky creates structure from Markdown}
+  spec.description   = %q{Smarky takes Markdown and turns it into structured (as opposed to flat) HTML}
   spec.summary       = %q{Smarky creates structure from Markdown}
   spec.homepage      = "https://github.com/dtao/smarky"
   spec.license       = "MIT"

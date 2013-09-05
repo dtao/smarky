@@ -1,22 +1,9 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe Smarky do
-  let(:result) { Smarky.parse(@input, @options || {}) }
+  let(:result) { Smarky.parse(@input, @parse_options || {}) }
 
   describe 'parse' do
-    def verify_result(*args)
-      expected, @options = [args.pop, args.pop]
-
-      case expected
-      when Array
-        node_to_array(result)[1..-1].should == expected
-      when String
-        result.to_html.should == expected
-      else
-        raise 'Unable to verify against a #{expected.class}.'
-      end
-    end
-
     it 'returns a Smarky::Element wrapper around an <article>' do
       result.should be_a(Smarky::Element)
       result.name.should == 'article'
@@ -24,7 +11,12 @@ describe Smarky do
 
     it 'works in the simplest case: rendering a single paragraph' do
       input 'Why *hello* there.'
-      verify_result '<article><p>Why <em>hello</em> there.</p></article>'
+
+      verify_result <<-EOHTML
+        <article>
+          <p>Why <em>hello</em> there.</p>
+        </article>
+      EOHTML
     end
 
     it 'uses RedCarpet for rendering Markdown by default' do
@@ -32,7 +24,13 @@ describe Smarky do
         This should look weird.
         {: .weird }
       EOMARKDOWN
-      verify_result "<article><p>This should look weird.\n{: .weird }</p></article>"
+
+      verify_result <<-EOHTML
+        <article>
+          <p>This should look weird.
+        {: .weird }</p>
+        </article>
+      EOHTML
     end
 
     it 'can use Maruku, if specified' do
@@ -40,7 +38,14 @@ describe Smarky do
         This should look normal.
         {: .normal }
       EOMARKDOWN
-      verify_result({ :markdown_renderer => :maruku }, '<article><p class="normal">This should look normal.</p></article>')
+
+      verify_result(:parse_options => { :markdown_renderer => :maruku }) do
+        <<-EOHTML
+          <article>
+            <p class="normal">This should look normal.</p>
+          </article>
+        EOHTML
+      end
     end
 
     it 'can also use Kramdown' do
@@ -49,7 +54,14 @@ describe Smarky do
         This should also look normal.
         {: .normal }
       EOMARKDOWN
-      verify_result({ :markdown_renderer => :kramdown }, '<article><p class="normal">This should also look normal.</p></article>')
+
+      verify_result(:parse_options => { :markdown_renderer => :kramdown }) do
+        <<-EOHTML
+          <article>
+            <p class="normal">This should also look normal.</p>
+          </article>
+        EOHTML
+      end
     end
 
     it 'renders sibling sections for progressive heading elements' do
@@ -65,7 +77,7 @@ describe Smarky do
         This is section 2.
       EOMARKDOWN
 
-      verify_result [
+      verify_result([
         [:section,
           [:h1, 'Section 1'],
           [:p, 'This is section 1.']
@@ -74,7 +86,7 @@ describe Smarky do
           [:h1, 'Section 2'],
           [:p, 'This is section 2.']
         ]
-      ]
+      ])
     end
 
     it 'attaches IDs to HTML sections' do
@@ -86,11 +98,16 @@ describe Smarky do
         =========
       EOMARKDOWN
 
-      # TODO: This is fragile :( Make it not!
-      verify_result '<article>' +
-        '<section id="section-1"><h1>Section 1</h1>' + "\n\n" + '</section>' +
-        '<section id="section-2"><h1>Section 2</h1></section>' +
-        '</article>'
+      verify_result(:array_options => { :include_attributes => true }) do
+        [
+          [:section, { :id => 'section-1' },
+            [:h1, 'Section 1'],
+          ],
+          [:section, { :id => 'section-2' },
+            [:h1, 'Section 2']
+          ]
+        ]
+      end
     end
 
     it 'adds content directly to the root article if there is only one top-level section' do

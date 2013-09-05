@@ -75,10 +75,14 @@ describe Smarky::Element do
         Content content content.
       EOMARKDOWN
 
-      # TODO: Make this less fragile (broken record...)
-      result.to_html(:omit_titles => true).should == '<article id="this-is-a-title">' + "\n\n" +
-        '<p>Content content content.</p>' +
-        '</article>'
+      # TODO: This still sucks :(
+      verify_result(:html_options => { :omit_titles => true }) do
+        <<-EOHTML
+          <article id="this-is-a-title">
+          
+          <p>Content content content.</p></article>
+        EOHTML
+      end
     end
   end
 end

@@ -1,18 +1,33 @@
 #!/usr/bin/env ruby
 
-require 'redcarpet'
+require 'slop'
 require 'smarky'
 
-input_file = ARGV[0] || 'index.md'
-if !File.exist?(input_file)
-  puts "Usage: smarky [input file path] [output file path]"
+opts = Slop.parse do
+  banner 'Usage: smarky [input file path] [options]'
+
+  on 'output-file=', 'The desired output file path'
+  on 'omit-titles',  'Whether to omit titles from the HTML output'
+  on 'renderer=',    'The Markdown renderer to use (Redcarpet, Kramdown, or Maruku)'
+  on 'h', 'help',    'Display help and exit'
+end
+
+if opts[:help] || ARGV.empty?
+  puts opts.help
   exit
 end
 
-output_file = ARGV[1] || File.basename(input_file, '.*') + '.html'
+input_file = ARGV[0] || 'index.md'
+if !File.exist?(input_file)
+  puts "Specified input file (#{input_file}) doesn't exist!"
+  exit
+end
 
-document = Smarky.parse(File.read(input_file))
+output_file = opts[:'output-file'] || File.basename(input_file, '.*') + '.html'
+renderer    = (opts[:renderer] || 'redcarpet').to_sym
+
+document = Smarky.parse(File.read(input_file), :markdown_renderer => renderer)
 
 File.open(output_file, 'w') do |f|
-  document.to_html
+  f.write(document.to_html(:omit_titles => opts[:'omit-titles']))
 end
